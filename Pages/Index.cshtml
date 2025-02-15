@@ -1,0 +1,65 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">📌 My To-Do List</h2>
+
+    <!-- Add Task Form -->
+    <form method="post" class="d-flex mb-3">
+        <input type="text" name="title" class="form-control me-2" 
+               placeholder="Enter new task" required />
+        <button type="submit" class="btn btn-primary" asp-page-handler="Add">
+            ➕ Add Task
+        </button>
+    </form>
+
+    <!-- To-Do List Table -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <table class="table table-bordered text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Task</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Items)
+                    {
+                        <tr>
+                            <td class="@(item.IsCompleted ? "completed" : "")">
+                                @item.Title
+                            </td>
+                            <td>
+                                <span class="badge bg-@(item.IsCompleted ? "success" : "warning")">
+                                    @(item.IsCompleted ? "✔ Completed" : "⏳ Pending")
+                                </span>
+                            </td>
+                            <td>
+                                <form method="post" style="display:inline;">
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                    <button type="submit" asp-page-handler="Complete"
+                                            class="btn btn-sm btn-outline-success">
+                                        ✔ Toggle
+                                    </button>
+                                </form>
+                                <form method="post" style="display:inline;">
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                    <button type="submit" asp-page-handler="Delete"
+                                            class="btn btn-sm btn-outline-danger">
+                                        ❌ Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
