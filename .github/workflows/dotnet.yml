@@ -6,7 +6,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: self-hosted  # Change from 'windows-latest' to 'self-hosted'
+    runs-on: self-hosted
 
     steps:
     - name: Checkout Code
@@ -24,10 +24,32 @@ jobs:
       run: dotnet build --no-restore --configuration Release
 
     - name: Publish Project
-      run: dotnet publish -c Release -o published
+      run: |
+        dotnet publish -c Release -o "$env:USERPROFILE\published" --verbosity detailed
+      shell: powershell
+
+    - name: Stop IIS App Pool
+      run: |
+        Import-Module WebAdministration
+        $appPoolName = "RazorTodoPool"
+        $appPoolStatus = (Get-WebAppPoolState -Name $appPoolName).Value
+        if ($appPoolStatus -ne "Stopped") {
+          Stop-WebAppPool -Name $appPoolName
+          Start-Sleep -s 5
+        } else {
+          Write-Host "App Pool is already stopped."
+        }
+      shell: powershell
 
     - name: Deploy to Local Folder
       run: |
         mkdir "D:\RazorToDoPub\MyApp" -Force
-        robocopy ".\published" "D:\RazorToDoPub\MyApp" /E /IS /IT
+        robocopy "$env:USERPROFILE\published" "D:\RazorToDoPub\MyApp" /E /XO /IT
+        exit 0  # Ensures GitHub Actions doesn't fail on exit code 1
+      shell: powershell
+
+    - name: Start IIS App Pool
+      run: |
+        Import-Module WebAdministration
+        Start-WebAppPool -Name "RazorTodoPool"
       shell: powershell
