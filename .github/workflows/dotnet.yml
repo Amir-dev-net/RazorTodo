@@ -36,3 +36,4 @@ jobs:
       run: |
         mkdir "D:\RazorToDoPub\MyApp" -Force
         robocopy ".\published" "D:\RazorToDoPub\MyApp" /E /IS /IT /NFL /NDL /NP
+        if ($LASTEXITCODE -gt 1) { exit 1 }
