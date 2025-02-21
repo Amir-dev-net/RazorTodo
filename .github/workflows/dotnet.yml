@@ -34,5 +34,5 @@ jobs:
 
     - name: Deploy to Local Machine
       run: |
-        mkdir C:\Deployment\MyApp -Force
-        xcopy /E /I /Y ./published D:\RazorToDoPub
+        mkdir D:\RazorToDoPub\MyApp -Force
+        xcopy /E /I /Y ./published D:\RazorToDoPub\MyApp
