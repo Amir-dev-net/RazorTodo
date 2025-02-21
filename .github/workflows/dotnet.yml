@@ -31,8 +31,14 @@ jobs:
     - name: Stop IIS App Pool
       run: |
         Import-Module WebAdministration
-        Stop-WebAppPool -Name "RazorTodoPool"
-        Start-Sleep -s 5  # Wait for IIS to release locks
+        $appPoolName = "YourAppPoolName"
+        $appPoolStatus = (Get-WebAppPoolState -Name $appPoolName).Value
+        if ($appPoolStatus -ne "Stopped") {
+          Stop-WebAppPool -Name $appPoolName
+          Start-Sleep -s 5  # Wait for IIS to release locks
+        } else {
+          Write-Host "App Pool is already stopped."
+        }
       shell: powershell
 
     - name: Deploy to Local Folder
@@ -44,5 +50,5 @@ jobs:
     - name: Start IIS App Pool
       run: |
         Import-Module WebAdministration
-        Start-WebAppPool -Name "RazorTodoPool"
+        Start-WebAppPool -Name "YourAppPoolName"
       shell: powershell
