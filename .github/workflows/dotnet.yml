@@ -31,7 +31,7 @@ jobs:
     - name: Stop IIS App Pool
       run: |
         Import-Module WebAdministration
-        $appPoolName = "YourAppPoolName"
+        $appPoolName = "RazorTodoPool"
         $appPoolStatus = (Get-WebAppPoolState -Name $appPoolName).Value
         if ($appPoolStatus -ne "Stopped") {
           Stop-WebAppPool -Name $appPoolName
@@ -50,5 +50,5 @@ jobs:
     - name: Start IIS App Pool
       run: |
         Import-Module WebAdministration
-        Start-WebAppPool -Name "YourAppPoolName"
+        Start-WebAppPool -Name "RazorTodoPool"
       shell: powershell
