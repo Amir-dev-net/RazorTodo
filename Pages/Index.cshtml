@@ -2,6 +2,14 @@
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
+    @if (!string.IsNullOrEmpty(TempData["Message"]?.ToString()))
+    {
+        <div class="alert alert-@TempData["MessageType"] alert-dismissible fade show" role="alert">
+            @TempData["Message"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
 }
 
 
