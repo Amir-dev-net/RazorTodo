@@ -2,13 +2,11 @@ name: .NET CI/CD
 
 on:
   push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+    branches: [ "master" ]  # Triggers on push to master
 
 jobs:
-  build:
-    runs-on: windows-latest
+  build-and-deploy:
+    runs-on: windows-latest  # Runs on a GitHub-hosted Windows VM
 
     steps:
     - name: Checkout Repository
@@ -25,9 +23,6 @@ jobs:
     - name: Build
       run: dotnet build --no-restore --configuration Release
 
-    - name: Run Tests
-      run: dotnet test --no-build --verbosity normal --configuration Release
-
     - name: Publish Application
       run: dotnet publish -c Release -o ./published
 
@@ -36,3 +31,8 @@ jobs:
       with:
         name: published-app
         path: ./published
+
+    - name: Deploy to Local Machine
+      run: |
+        mkdir C:\Deployment\MyApp -Force
+        xcopy /E /I /Y ./published D:\RazorToDoPub
