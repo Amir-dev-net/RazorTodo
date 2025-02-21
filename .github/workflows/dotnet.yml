@@ -30,4 +30,4 @@ jobs:
       run: |
         mkdir "D:\RazorToDoPub\MyApp" -Force
         robocopy ".\published" "D:\RazorToDoPub\MyApp" /E /IS /IT
-      shell: pwsh
+      shell: powershell
