@@ -16,7 +16,7 @@ namespace RazorTodo.Pages
             {
                 ToDoList.AddRange(new List<ToDoItem>
             {
-                new ToDoItem { Id = 1, Title = "Morning Workout(Excercise)", IsCompleted = false },
+                new ToDoItem { Id = 1, Title = "Morning Workout(Running)", IsCompleted = false },
                 new ToDoItem { Id = 2, Title = "Read a Book (30 mins)", IsCompleted = false },
                 new ToDoItem { Id = 3, Title = "Plan Weekly Meals", IsCompleted = false },
                 new ToDoItem { Id = 4, Title = "Meditate for 10 Minutes", IsCompleted = false },
