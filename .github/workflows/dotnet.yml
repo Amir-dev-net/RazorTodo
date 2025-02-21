@@ -6,7 +6,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: self-hosted  # Running on your local machine
+    runs-on: self-hosted
 
     steps:
     - name: Checkout Code
@@ -35,7 +35,7 @@ jobs:
         $appPoolStatus = (Get-WebAppPoolState -Name $appPoolName).Value
         if ($appPoolStatus -ne "Stopped") {
           Stop-WebAppPool -Name $appPoolName
-          Start-Sleep -s 5  # Wait for IIS to release locks
+          Start-Sleep -s 5
         } else {
           Write-Host "App Pool is already stopped."
         }
@@ -44,7 +44,8 @@ jobs:
     - name: Deploy to Local Folder
       run: |
         mkdir "D:\RazorToDoPub\MyApp" -Force
-        robocopy "$env:USERPROFILE\published" "D:\RazorToDoPub\MyApp" /E /XO /IT || exit 0
+        robocopy "$env:USERPROFILE\published" "D:\RazorToDoPub\MyApp" /E /XO /IT
+        if ($LASTEXITCODE -gt 3) { exit 1 }
       shell: powershell
 
     - name: Start IIS App Pool
