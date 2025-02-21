@@ -1,15 +1,15 @@
-name: .NET CI/CD
+name: Deploy .NET App
 
 on:
   push:
-    branches: [ "master" ]  # Triggers on push to master
+    branches: [ "master" ]
 
 jobs:
   build-and-deploy:
-    runs-on: windows-latest  # Runs on a GitHub-hosted Windows VM
+    runs-on: windows-latest
 
     steps:
-    - name: Checkout Repository
+    - name: Checkout Code
       uses: actions/checkout@v4
 
     - name: Setup .NET
@@ -20,20 +20,17 @@ jobs:
     - name: Restore Dependencies
       run: dotnet restore
 
-    - name: Build
+    - name: Build Project
       run: dotnet build --no-restore --configuration Release
 
-    - name: Publish Application
-      run: dotnet publish -c Release -o ./published
+    - name: Publish Project
+      run: dotnet publish -c Release -o published
 
-    - name: Upload Artifact (Published App)
-      uses: actions/upload-artifact@v4
-      with:
-        name: published-app
-        path: ./published
+    - name: Verify Published Files
+      run: dir published  # This checks if the files exist
 
     - name: Deploy to Local Machine
       run: |
         mkdir "D:\RazorToDoPub\MyApp" -Force
         robocopy ".\published" "D:\RazorToDoPub\MyApp" /E /IS /IT /NFL /NDL /NP
-        if ($LASTEXITCODE -gt 1) { exit 1 }
+      shell: pwsh
