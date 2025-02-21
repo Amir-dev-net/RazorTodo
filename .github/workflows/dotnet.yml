@@ -29,5 +29,5 @@ jobs:
     - name: Deploy to Local Folder
       run: |
         mkdir "D:\RazorToDoPub\MyApp" -Force
-        robocopy ".\published" "D:\RazorToDoPub\MyApp" /E /IS /IT
+        robocopy ".\published" "D:\RazorToDoPub\MyApp" /E /XO /IT
       shell: powershell
