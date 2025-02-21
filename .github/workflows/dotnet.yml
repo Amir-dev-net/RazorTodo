@@ -24,22 +24,23 @@ jobs:
       run: dotnet build --no-restore --configuration Release
 
     - name: Publish Project
-      run: dotnet publish -c Release -o published
+      run: |
+        dotnet publish -c Release -o "$env:USERPROFILE\published" --verbosity detailed
+      shell: powershell
 
-    # Stop IIS App Pool before copying files (to avoid file locking issue)
     - name: Stop IIS App Pool
       run: |
         Import-Module WebAdministration
         Stop-WebAppPool -Name "RazorTodoPool"
+        Start-Sleep -s 5  # Wait for IIS to release locks
       shell: powershell
 
     - name: Deploy to Local Folder
       run: |
         mkdir "D:\RazorToDoPub\MyApp" -Force
-        robocopy ".\published" "D:\RazorToDoPub\MyApp" /E /XO /IT
+        robocopy "$env:USERPROFILE\published" "D:\RazorToDoPub\MyApp" /E /XO /IT || exit 0
       shell: powershell
 
-    # Restart IIS App Pool after deployment
     - name: Start IIS App Pool
       run: |
         Import-Module WebAdministration
