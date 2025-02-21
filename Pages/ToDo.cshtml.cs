@@ -21,7 +21,7 @@ namespace RazorTodo.Pages
                 new ToDoItem { Id = 3, Title = "Plan Weekly Meals", IsCompleted = false },
                 new ToDoItem { Id = 4, Title = "Meditate for 10 Minutes", IsCompleted = false },
                 new ToDoItem { Id = 5, Title = "Drink 8 Glasses of Water", IsCompleted = false },
-                new ToDoItem { Id = 6, Title = "Do some researches on tech", IsCompleted = false }
+                new ToDoItem { Id = 6, Title = "Do some researches on technology", IsCompleted = false }
             });
             }
         }
