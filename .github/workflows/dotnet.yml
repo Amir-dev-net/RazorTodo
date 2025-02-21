@@ -6,7 +6,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: self-hosted  # Change from 'windows-latest' to 'self-hosted'
+    runs-on: self-hosted  # Running on your local machine
 
     steps:
     - name: Checkout Code
@@ -26,8 +26,22 @@ jobs:
     - name: Publish Project
       run: dotnet publish -c Release -o published
 
+    # Stop IIS App Pool before copying files (to avoid file locking issue)
+    - name: Stop IIS App Pool
+      run: |
+        Import-Module WebAdministration
+        Stop-WebAppPool -Name "YourAppPoolName"
+      shell: powershell
+
     - name: Deploy to Local Folder
       run: |
         mkdir "D:\RazorToDoPub\MyApp" -Force
         robocopy ".\published" "D:\RazorToDoPub\MyApp" /E /XO /IT
+      shell: powershell
+
+    # Restart IIS App Pool after deployment
+    - name: Start IIS App Pool
+      run: |
+        Import-Module WebAdministration
+        Start-WebAppPool -Name "YourAppPoolName"
       shell: powershell
