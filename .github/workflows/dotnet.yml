@@ -30,7 +30,7 @@ jobs:
     - name: Stop IIS App Pool
       run: |
         Import-Module WebAdministration
-        Stop-WebAppPool -Name "YourAppPoolName"
+        Stop-WebAppPool -Name "RazorTodoPool"
       shell: powershell
 
     - name: Deploy to Local Folder
@@ -43,5 +43,5 @@ jobs:
     - name: Start IIS App Pool
       run: |
         Import-Module WebAdministration
-        Start-WebAppPool -Name "YourAppPoolName"
+        Start-WebAppPool -Name "RazorTodoPool"
       shell: powershell
