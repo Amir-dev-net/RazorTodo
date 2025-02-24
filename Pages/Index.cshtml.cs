@@ -29,6 +29,7 @@ namespace RazorTodo.Pages
                 new ToDoItem { Id = 9, Title = "Practice a new programming language", IsCompleted = false },
                 new ToDoItem { Id = 10, Title = "Organize workspace", IsCompleted = false },
                 new ToDoItem { Id = 11, Title = "Review project backlog", IsCompleted = false },
+                new ToDoItem { Id = 12, Title = "Plan next week's schedule", IsCompleted = false },
                 new ToDoItem { Id = 12, Title = "Plan next week's schedule", IsCompleted = false }
             });
             }
